@@ -14,7 +14,7 @@ namespace WealthNexus {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddSingleton<IAccountService>(new AccountService(CreateContainer("account")));
+            builder.Services.AddSingleton<IAccountService>(new AccountService(CreateContainer("accounts")));
             builder.Services.AddSingleton<ITransactionService>(new TransactionService(CreateContainer("transactions")));
             var app = builder.Build();
 

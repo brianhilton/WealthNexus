@@ -34,7 +34,9 @@ namespace WealthNexus.Controllers {
         public async Task<IActionResult> CreateTransaction(Transaction transaction)
         {
             var user = await _accounts.GetAccountAsync(transaction.AccountId);
-            if(user == null) return BadRequest();
+            if(user == null) return BadRequest("User not found");
+
+            if ((user.AccountBalance + transaction.Amount) < 0) return BadRequest("Insufficient funds");
 
             user.AccountBalance += transaction.Amount;
             await _accounts.UpdateAccountAsync(user);
