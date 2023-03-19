@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WealthNexus.Common.Models;
+using WealthNexus.Common.Models.RequestResponse;
 using WealthNexus.Logic.Interfaces;
 
 namespace WealthNexus.Controllers {
@@ -33,6 +35,20 @@ namespace WealthNexus.Controllers {
 
             if (account == null) return NotFound();
 
+            return Ok(account);
+        }
+
+        [HttpPost("login")]
+        [EnableCors]
+        public async Task<IActionResult> Login(LoginRequest login)
+        {
+           // HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            var account = await _accounts.GetUserByName(login.username);
+
+            if (account == null) return NotFound();
+
+            if (account.Password != login.password)
+                return BadRequest();
             return Ok(account);
         }
     }

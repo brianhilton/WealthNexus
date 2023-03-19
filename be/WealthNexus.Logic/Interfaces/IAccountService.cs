@@ -13,5 +13,7 @@ namespace WealthNexus.Logic.Interfaces {
         public Task<Account?> CreateAccountAsync(Account account);
 
         public Task<Account?> UpdateAccountAsync(Account account);
+
+        public Task<Account?> GetUserByName(string username);
     }
 }

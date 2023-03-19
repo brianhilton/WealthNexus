@@ -39,5 +39,35 @@ namespace WealthNexus.Logic.Services {
             await _container.UpsertItemAsync<Account>(account, new PartitionKey(account.Id));
             return account;
         }
+
+        public async Task<Account?> GetUserByName(string username)
+        {
+            Account? responseAccount = null;
+
+            try
+            {
+                var parameterizedQuery = new QueryDefinition(
+                        query: "SELECT * FROM accounts a WHERE a.Username = @partitionKey"
+                    )
+                    .WithParameter("@partitionKey", username);
+
+                using FeedIterator<Account> filteredFeed = _container.GetItemQueryIterator<Account>(
+                    queryDefinition: parameterizedQuery
+                );
+
+                while (filteredFeed.HasMoreResults)
+                {
+                    FeedResponse<Account> response = await filteredFeed.ReadNextAsync();
+
+                    // Iterate query results
+                    responseAccount = response.FirstOrDefault();
+                }
+                return responseAccount;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+        }
     }
 }
