@@ -26,9 +26,12 @@ namespace WealthNexus {
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()
+            );
             app.UseAuthorization();
-            app.UseCors();
 
             app.MapControllers();
 

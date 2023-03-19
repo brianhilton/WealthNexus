@@ -39,10 +39,10 @@ namespace WealthNexus.Controllers {
         }
 
         [HttpPost("login")]
-        [EnableCors]
+
         public async Task<IActionResult> Login(LoginRequest login)
         {
-           // HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             var account = await _accounts.GetUserByName(login.username);
 
             if (account == null) return NotFound();

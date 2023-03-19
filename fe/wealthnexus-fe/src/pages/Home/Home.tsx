@@ -47,10 +47,12 @@ if(user === undefined){
     </form>
     )
 }
+
 return (
     <div>
         <h1>Username: {user.username}</h1>
-        <h3>Balance: {user.accountBalance}</h3>
+        <h3>Balance: {user.accountBalance < 1000 ? "Funds below one thousand: " : "Funds exceed one thousand: "}{user.accountBalance}</h3>
+        <h6>Here yo email: {user.email}</h6>
     </div>
 )
 }
